@@ -24,10 +24,10 @@
         <table border="1" id="result_table">
             <tr>
                 <th>名前</th>
-                <!--     <th>メッセージ数</th>
+                <th>メッセージ数</th>
                 <th>画像数</th>
                 <th>動画</th>
-                <th>スタンプ</th>-->
+                <th>スタンプ</th>
             </tr>
         </table>
     </div>
@@ -92,7 +92,7 @@
             for (var i = 0; i < keys.length; i++) {
                 var name = keys[i]
                 var member = members[keys[i]]
-                $("#result_board").append(`<tr><td>${name}</td></tr>`);
+                $("#result_table").append(`<tr><td>${name}</td><td>${member["message"]}</td><td>${member["contents"]["image"]}</td><td>${member["contents"]["movie"]}</td><td>${member["contents"]["stamp"]}</td></tr>`);
             }
         }
     </script>
