@@ -12,7 +12,7 @@
 <body>
     <div id="File_selection">
         <input type="file" id="fileToLoad"></td>
-        <button onclick="loadFileAsText()">Load Selected File</button>
+        <button onclick="loadFileAsText()">読み込む</button>
     </div>
 
     <div id="status">
@@ -32,9 +32,19 @@
         </table>
     </div>
 
+    <div id="help">
+        <h3>このサイトの使い方</h3>
+        <ol>
+            <li>Lineのグループから「トーク履歴の送信」を押してtxtファイルをダウンロードする</li>
+            <li>このサイトにtxtファイルをアップロードする</li>
+            <li>「読み込む」をクリック</li>
+        </ol>
+    </div>
+
     <script>
         function loadFileAsText() {
             $('#File_selection').hide();
+            $('#help').hide();
             $('#status').text("読み込み中");
             var fileToLoad = document.getElementById("fileToLoad").files[0];
 
