@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <title>Lineログビューア</title>
+</head>
+
+<body>
+    <div id="File_selection">
+        <input type="file" id="fileToLoad"></td>
+    <button onclick="loadFileAsText()">Load Selected File</button>
+</div>
+
+<div id="status">
+    ファイルを選択してください
+</div>
+
+<div id="result" style="display:none">
+    <p id="result_title"></p>
+    <table border="1">
+        <tr>
+            <th>名前</th>
+            <th>メッセージ数</th>
+            <th>画像数</th>
+            <th>動画</th>
+            <th>スタンプ</th>
+        </tr>
+    </table>
+</div>
+
+<script>
+    function loadFileAsText() {
+        $('#File_selection').hide();
+        $('#status').text("読み込み中");
+        var fileToLoad = document.getElementById("fileToLoad").files[0];
+
+        var fileReader = new FileReader();
+        fileReader.onload = function (fileLoadedEvent) {
+            var textFromFileLoaded = fileLoadedEvent.target.result;
+            GetGata(textFromFileLoaded);
+        };
+
+        fileReader.readAsText(fileToLoad, "UTF-8");
+    }
+    function GetGata(text) {
+        $('#status').text("ファイルを分析中");
+        var lines = text.split('\n');
+
+        var message = 0
+        var stamp = 0
+        var image = 0
+        var movie = 0
+
+        for (var line = 0; line < lines.length; line++) {
+            var regex = new RegExp(/^\d?\d:\d\d/);
+            if (regex.test(lines[line])) {
+                message += 1
+                if (lines[line].indexOf('[写真]') !== -1) {
+                    image += 1
+                } else if (lines[line].indexOf('[動画]') !== -1) {
+                    movie += 1
+                } else if (lines[line].indexOf('[スタンプ]') !== -1) {
+                    stamp += 1
+                }
+            }
+        }
+        $('#status').text("完了");
+        $('#result').show();
+        $('#result_title').text(`総メッセージ数${message} | 画像数${image} | 動画数${movie} | スタンプ数${stamp}`);
+    }
+</script>
+</body>
+
+</html>
