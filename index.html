@@ -56,6 +56,7 @@
             var fileReader = new FileReader();
             fileReader.onload = function (fileLoadedEvent) {
                 var textFromFileLoaded = fileLoadedEvent.target.result;
+                window.file_text = textFromFileLoaded;
                 GetGata(textFromFileLoaded);
             };
 
@@ -112,7 +113,7 @@
             }
         }
         $('#search-button').on('click', function () {
-            var text = textFromFileLoaded
+            var text = window.file_text;
             var targetStr = $('#search').val() ;
             var count = ( text.match( new RegExp( targetStr, "g" ) ) || [] ).length ;
             alert(`検索結果: ${count}`);
