@@ -19,7 +19,7 @@
         ファイルを選択してください
     </div>
 
-    <div id="result" style="display:none">
+    <div id="result" style="display:none;">
         <p id="result_title"></p>
         <table border="1" id="result_table">
             <tr>
@@ -30,6 +30,11 @@
                 <th>スタンプ</th>
             </tr>
         </table>
+    </div>
+
+    <div id="search-box" style="display: none;">
+        <input type="search" name="検索" id="search">
+        <input type="button" value="検索" id="search-button">
     </div>
 
     <div id="help">
@@ -97,6 +102,7 @@
             }
             $('#status').text("完了");
             $('#result').show();
+            $('#search-box').show();
             $('#result_title').text(`総メッセージ数${message} | 画像数${image} | 動画数${movie} | スタンプ数${stamp}`);
             var keys = Object.keys(members);
             for (var i = 0; i < keys.length; i++) {
@@ -105,6 +111,12 @@
                 $("#result_table").append(`<tr><td>${name}</td><td>${member["message"]}</td><td>${member["contents"]["image"]}</td><td>${member["contents"]["movie"]}</td><td>${member["contents"]["stamp"]}</td></tr>`);
             }
         }
+        $('#search-button').on('click', function () {
+            var text = textFromFileLoaded
+            var targetStr = $('#search').val() ;
+            var count = ( text.match( new RegExp( targetStr, "g" ) ) || [] ).length ;
+            alert(`検索結果: ${count}`);
+        });
     </script>
 </body>
 
