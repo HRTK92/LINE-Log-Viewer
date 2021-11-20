@@ -25,6 +25,7 @@
             <tr>
                 <th>名前</th>
                 <th>メッセージ数</th>
+                <th>テキスト</th>
                 <th>画像数</th>
                 <th>動画</th>
                 <th>スタンプ</th>
@@ -67,6 +68,7 @@
             var lines = text.split('\n');
 
             var message = 0
+            var text = 0
             var stamp = 0
             var image = 0
             var movie = 0
@@ -81,6 +83,7 @@
                         members[name] = {}
                         members[name]["message"] = 0
                         members[name]["contents"] = {}
+                        members[name]["contents"]["text"] = 0
                         members[name]["contents"]["image"] = 0
                         members[name]["contents"]["movie"] = 0
                         members[name]["contents"]["stamp"] = 0
@@ -98,24 +101,27 @@
                     } else if (lines[line].indexOf('[スタンプ]') !== -1) {
                         stamp += 1
                         members[name]["contents"]["stamp"] += 1
+                    } else {
+                        text += 1
+                        members[name]["contents"]["text"] += 1
                     }
                 }
             }
             $('#status').text("完了");
             $('#result').show();
             $('#search-box').show();
-            $('#result_title').text(`総メッセージ数${message} | 画像数${image} | 動画数${movie} | スタンプ数${stamp}`);
+            $('#result_title').text(`総メッセージ数${message} | テキスト数${text} | 画像数${image} | 動画数${movie} | スタンプ数${stamp}`);
             var keys = Object.keys(members);
             for (var i = 0; i < keys.length; i++) {
                 var name = keys[i]
                 var member = members[keys[i]]
-                $("#result_table").append(`<tr><td>${name}</td><td>${member["message"]}</td><td>${member["contents"]["image"]}</td><td>${member["contents"]["movie"]}</td><td>${member["contents"]["stamp"]}</td></tr>`);
+                $("#result_table").append(`<tr><td>${name}</td><td>${member["message"]}</td><td>${member["contents"]["text"]}</td><td>${member["contents"]["image"]}</td><td>${member["contents"]["movie"]}</td><td>${member["contents"]["stamp"]}</td></tr>`);
             }
         }
         $('#search-button').on('click', function () {
             var text = window.file_text;
-            var targetStr = $('#search').val() ;
-            var count = ( text.match( new RegExp( targetStr, "g" ) ) || [] ).length ;
+            var targetStr = $('#search').val();
+            var count = (text.match(new RegExp(targetStr, "g")) || []).length;
             alert(`検索結果: ${count}`);
         });
     </script>
