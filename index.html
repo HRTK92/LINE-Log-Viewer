@@ -127,9 +127,7 @@
                 }
             }
             $('#status').text("完了");
-            $('#result').show();
-            $('#search-box').show();
-            $('#daily-data').show();
+            $('#result, #search-box, #daily-data').show();
             $('#result_title').text(`総メッセージ数${message} | テキスト数${text} | 画像数${image} | 動画数${movie} | スタンプ数${stamp}`);
             var keys = Object.keys(members);
             for (var i = 0; i < keys.length; i++) {
