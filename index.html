@@ -8,50 +8,67 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.9.3/dist/js/uikit.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.9.3/dist/js/uikit-icons.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.9.3/dist/css/uikit.min.css" />
 
     <title>Lineログビューア</title>
 </head>
 
 <body>
-    <div id="File_selection">
-        <input type="file" id="fileToLoad"></td>
-        <button onclick="loadFileAsText()">読み込む</button>
-    </div>
+    <div class="uk-container">
+        <div class="uk-section" id="File_selection">
+            <div class="js-upload" uk-form-custom>
+                <input type="file" id="fileToLoad" multiple>
+                <button class="uk-button uk-button-default" type="button" tabindex="-1">アップロード</button>
+            </div>
+            <button class="uk-button uk-button-primary" onclick="loadFileAsText()">読み込む</button>
+        </div>
 
-    <div id="status">
-        ファイルを選択してください
-    </div>
+        <div class="uk-section" id="status">
+            ファイルを選択してください
+        </div>
 
-    <div id="search-box" style="display: none;">
-        <input type="search" name="検索" id="search">
-        <input type="button" value="検索" id="search-button">
-    </div>
+        <div class="uk-section" id="search-box" style="display: none;">
+            <div class="uk-margin">
+                <form class="uk-search uk-search-default">
+                    <a href="" class="uk-search-icon-flip" id="search-button" uk-search-icon></a>
+                    <input class="uk-search-input" type="search" id="search" placeholder="Search">
+                </form>
+            </div>
+            <!--
+                                                                                                                                                                                                                                                                                    <input type="search" name="検索" id="search">
+                                                                                                                                                                                                                                                                                            <input type="button" value="検索" id="search-button">
+                                                                                                                                                                                                                                                                                                    -->
+        </div>
 
-    <div id="result" style="display:none;">
-        <p id="result_title"></p>
-        <table border="1" id="result_table">
-            <tr>
-                <th>名前</th>
-                <th>メッセージ数</th>
-                <th>テキスト</th>
-                <th>画像数</th>
-                <th>動画</th>
-                <th>スタンプ</th>
-            </tr>
-        </table>
-    </div>
+        <div class="uk-section" id="result" style="display:none;">
+            <p id="result_title"></p>
+            <table class="uk-table uk-table-divider" id="result_table" style="overflow-x: scroll; width : 100%;">
+                <tr>
+                    <th>名前</th>
+                    <th>メッセージ数</th>
+                    <th>テキスト</th>
+                    <th>画像数</th>
+                    <th>動画</th>
+                    <th>スタンプ</th>
+                </tr>
+            </table>
+        </div>
 
-    <div id="daily-data" style="display: none;">
-        <canvas id="daily-chart"></canvas>
-    </div>
+        <div class="uk-section" id="daily-data" style="display: none;">
+            <canvas id="daily-chart"></canvas>
+        </div>
 
-    <div id="help">
-        <h3>このサイトの使い方</h3>
-        <ol>
-            <li>Lineのグループから「トーク履歴の送信」を押してtxtファイルをダウンロードする</li>
-            <li>このサイトにtxtファイルをアップロードする</li>
-            <li>「読み込む」をクリック</li>
-        </ol>
+        <div class="uk-section" id="help">
+            <h3>このサイトの使い方</h3>
+            <ol>
+                <li>Lineのグループから「トーク履歴の送信」を押してtxtファイルをダウンロードする</li>
+                <li>このサイトにtxtファイルをアップロードする</li>
+                <li>「読み込む」をクリック</li>
+            </ol>
+        </div>
     </div>
 
     <script>
