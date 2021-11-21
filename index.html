@@ -30,51 +30,37 @@
             ファイルを選択してください
         </div>
 
-        <div class="uk-section" id="tab">
-            <ul class="uk-child-width-expand">
-                <li class="uk-active"><a href="#">データ一覧</a></li>
-                <li><a href="#">1日グラフ</a></li>
-                <li><a href="#">検索</a></li>
-            </ul>
+        <div class="uk-section" id="search-box" style="display: none;">
+            <div class="uk-margin">
+                <form class="uk-search uk-search-default">
+                    <a href="" class="uk-search-icon-flip" id="search-button" uk-search-icon></a>
+                    <input class="uk-search-input" type="search" id="search" placeholder="Search">
+                </form>
+            </div>
+            <!--
+                                                                                                                                                                                                                                                                                    <input type="search" name="検索" id="search">
+                                                                                                                                                                                                                                                                                            <input type="button" value="検索" id="search-button">
+                                                                                                                                                                                                                                                                                                    -->
         </div>
 
-        <ul class="uk-switcher uk-margin">
-            <li class="uk-section-xsmall uk-background-default">
-                <div class="uk-section" id="search-box" style="display: none;">
-                    <div class="uk-margin">
-                        <form class="uk-search uk-search-default">
-                            <a href="" class="uk-search-icon-flip" id="search-button" uk-search-icon></a>
-                            <input class="uk-search-input" type="search" id="search" placeholder="Search">
-                        </form>
-                    </div>
-                    <!--
-        <input type="search" name="検索" id="search">
-        <input type="button" value="検索" id="search-button">
-        -->
-                </div>
-            </li>
-            <li class="uk-section-xsmall uk-background-default">
-                <div class="uk-section" id="result" style="display:none;">
-                    <p id="result_title"></p>
-                    <table class="uk-table uk-table-divider" id="result_table"
-                        style="overflow-x: scroll; width : 100%;">
-                        <tr>
-                            <th>名前</th>
-                            <th>メッセージ数</th>
-                            <th>テキスト</th>
-                            <th>画像数</th>
-                            <th>動画</th>
-                            <th>スタンプ</th>
-                        </tr>
-                    </table>
-                </div>
-            </li>
-            <li class="uk-section-xsmall uk-background-default">
-                <div class="uk-section" id="daily-data" style="display: none;">
-                    <canvas id="daily-chart"></canvas>
-                </div>
-            </li>
-        </ul>
+        <div class="uk-section" id="result" style="display:none;">
+            <p id="result_title"></p>
+            <table class="uk-table uk-table-divider" id="result_table" style="overflow-x: scroll; width : 100%;">
+                <tr>
+                    <th>名前</th>
+                    <th>メッセージ数</th>
+                    <th>テキスト</th>
+                    <th>画像数</th>
+                    <th>動画</th>
+                    <th>スタンプ</th>
+                </tr>
+            </table>
+        </div>
+
+        <div class="uk-section" id="daily-data" style="display: none;">
+            <canvas id="daily-chart"></canvas>
+        </div>
+
         <div class="uk-section" id="help">
             <h3>このサイトの使い方</h3>
             <ol>
@@ -82,8 +68,6 @@
                 <li>このサイトにtxtファイルをアップロードする</li>
                 <li>「読み込む」をクリック</li>
             </ol>
-
-            <a href="" class="uk-icon-button" uk-icon="github"></a>
         </div>
     </div>
 
