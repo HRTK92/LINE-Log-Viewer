@@ -8,20 +8,23 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-zoom/0.6.3/chartjs-plugin-zoom.js'></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/uikit@3.9.3/dist/js/uikit.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/uikit@3.9.3/dist/js/uikit-icons.min.js"></script>
 
-    <script>
-    ;(function () {
-    var src = '//cdn.jsdelivr.net/npm/eruda';
-    if (!/eruda=true/.test(window.location) && localStorage.getItem('active-eruda') != 'true') return;
-    document.write('<scr' + 'ipt src="' + src + '"></scr' + 'ipt>');
-    document.write('<scr' + 'ipt>eruda.init();</scr' + 'ipt>');
-})();
-
-    </script>
-
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.9.3/dist/css/uikit.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
+
+    <script>
+        ; (function () {
+            var src = '//cdn.jsdelivr.net/npm/eruda';
+            if (!/eruda=true/.test(window.location) && localStorage.getItem('active-eruda') != 'true') return;
+            document.write('<scr' + 'ipt src="' + src + '"></scr' + 'ipt>'); document.write('<scr' + 'ipt>eruda.init();</scr'
+                + 'ipt>');
+        })();
+    </script>
 
     <title>Lineログビューア</title>
 </head>
@@ -37,7 +40,9 @@
         </div>
 
         <div class="uk-section" id="status">
-            ファイルを選択してください
+            <p id="status-text">ファイルを選択してください</p>
+            <progress id="js-progressbar" class="uk-progress" value="0" max="100"></progress>
+
         </div>
 
         <div class="uk-section" id="search-box" style="display: none;">
@@ -51,15 +56,21 @@
 
         <div class="uk-section" id="result" style="display:none;">
             <p id="result_title"></p>
-            <table class="uk-table uk-table-divider" id="result_table" style="overflow-x: scroll; width: 90%;">
-                <tr>
-                    <th>名前</th>
-                    <th>メッセージ数</th>
-                    <th>テキスト</th>
-                    <th>画像数</th>
-                    <th>動画</th>
-                    <th>スタンプ</th>
-                </tr>
+            <p id="average_value"></p>
+            <table class="uk-table uk-table-hover uk-table-striped" id="result_table"
+                style="overflow-x: scroll; width: 90%;">
+                <thead>
+                    <tr>
+                        <th>名前</th>
+                        <th>メッセージ数</th>
+                        <th>テキスト</th>
+                        <th>画像数</th>
+                        <th>動画</th>
+                        <th>スタンプ</th>
+                        <th>初発言日</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
             </table>
         </div>
 
@@ -78,10 +89,13 @@
     </div>
 
     <script>
+        var bar = document.getElementById('js-progressbar');
+
         function loadFileAsText() {
             $('#File_selection').hide();
             $('#help').hide();
-            $('#status').text("読み込み中");
+            $('#status-text').text("読み込み中");
+            bar.value += 20;
             var fileToLoad = document.getElementById("fileToLoad").files[0];
 
             var fileReader = new FileReader();
@@ -94,7 +108,8 @@
             fileReader.readAsText(fileToLoad, "UTF-8");
         }
         function GetGata(text) {
-            $('#status').text("ファイルを分析中");
+            $('#status-text').text("ファイルを分析中");
+            bar.value += 20;
             var lines = text.split('\n');
 
             var message = 0
@@ -120,6 +135,7 @@
                     if (members[name] == null) {
                         members[name] = {}
                         members[name]["message"] = 0
+                        members[name]["join"] = line_date.slice( 0, -3 ) 
                         members[name]["contents"] = {}
                         members[name]["contents"]["text"] = 0
                         members[name]["contents"]["image"] = 0
@@ -149,15 +165,27 @@
                     }
                 }
             }
-            $('#status').text("完了");
+            $('#status-text').text("完了");
+            bar.value = 100;
             $('#result, #search-box, #daily-data').show();
+            $('#js-progressbar').hide();
             $('#result_title').text(`総メッセージ数${message} | テキスト数${text} | 画像数${image} | 動画数${movie} | スタンプ数${stamp}`);
             var keys = Object.keys(members);
             for (var i = 0; i < keys.length; i++) {
                 var name = keys[i]
                 var member = members[keys[i]]
-                $("#result_table").append(`<tr><td>${name}</td><td>${member["message"]}</td><td>${member["contents"]["text"]}</td><td>${member["contents"]["image"]}</td><td>${member["contents"]["movie"]}</td><td>${member["contents"]["stamp"]}</td></tr>`);
+                $("tbody").append(`<tr><td>${name}</td><td>${member["message"]}</td><td>${member["contents"]["text"]}</td><td>${member["contents"]["image"]}</td><td>${member["contents"]["movie"]}</td><td>${member["contents"]["stamp"]}</td><td>${member["join"]}</td></tr>`);
             }
+            $(document).ready(function () {
+                $('#result_table').DataTable({
+                    // 日本語表示
+                    "language": {
+                        "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Japanese.json"
+                    },
+                    displayLength: 50,
+                    "order": [6, "desc"]
+                });
+            })
             createDailyChart(date)
         }
         $('#search-button').on('click', function () {
@@ -178,6 +206,10 @@
                 days.push(day)
                 numbers.push(n)
             }
+            var sum = 0
+            numbers.forEach(v => sum += v)
+            var Average_value = sum / numbers.length
+            $('#average_value').text(`1日の平均: ${Average_value}`)
 
             var ctx = document.getElementById("daily-chart");
             var myLineChart = new Chart(ctx, {
@@ -196,6 +228,23 @@
                         },
                     ],
                 },
+                options: {
+                    /*
+                    plugins: {
+                        zoom: {
+                            zoom: {
+                                wheel: {
+                                    enabled: true,
+                                },
+                                pinch: {
+                                    enabled: true
+                                },
+                                mode: 'xy',
+                            }
+                        }
+
+                    }*/
+                }
             });
         }
 
