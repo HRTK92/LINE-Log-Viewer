@@ -57,8 +57,7 @@
         <div class="uk-section" id="result" style="display:none;">
             <p id="result_title"></p>
             <p id="average_value"></p>
-            <table class="uk-table uk-table-hover uk-table-striped" id="result_table"
-                style="overflow-x: scroll; width: 90%;">
+            <table class="uk-table uk-table-hover uk-table-striped" id="result_table" style="overflow-x: scroll; width: 90%;">
                 <thead>
                     <tr>
                         <th>名前</th>
@@ -70,12 +69,25 @@
                         <th>初発言日</th>
                     </tr>
                 </thead>
-                <tbody></tbody>
+                <tbody id="result_tbody"></tbody>
             </table>
         </div>
 
         <div class="uk-section" id="daily-data" style="display: none;">
             <canvas id="daily-chart"></canvas>
+        </div>
+
+        <div class="uk-section" id="diary" style="display:none;">
+            <table class="uk-table uk-table-hover uk-table-striped" id="result_table" style="overflow-x: scroll; width: 90%;">
+                <thead>
+                    <tr>
+                        <th>日付</th>
+                        <th>内容</th>
+                    </tr>
+                </thead>
+                <tbody id="result_diary"></tbody>
+            </table>
+
         </div>
 
         <div class="uk-section" id="help">
@@ -167,21 +179,21 @@
                         if (regex.test(lines[line])) {
                             diary_date = lines[line].match(regex)
                             diary[diary_date] = lines[line + 1]
-                            console.log(diary)
+                            $("#diary_tbody").append(`<tr><td>${diary_date}</td><td>${diary[diary_date]}</td></tr>`);
                         }
                     }
                 }
             }
             $('#status-text').text("完了");
             bar.value = 100;
-            $('#result, #search-box, #daily-data').show();
+            $('#result, #search-box, #daily-data, #diary').show();
             $('#js-progressbar').hide();
             $('#result_title').text(`総メッセージ数${message} | テキスト数${text} | 画像数${image} | 動画数${movie} | スタンプ数${stamp}`);
             var keys = Object.keys(members);
             for (var i = 0; i < keys.length; i++) {
                 var name = keys[i]
                 var member = members[keys[i]]
-                $("tbody").append(`<tr><td>${name}</td><td>${member["message"]}</td><td>${member["contents"]["text"]}</td><td>${member["contents"]["image"]}</td><td>${member["contents"]["movie"]}</td><td>${member["contents"]["stamp"]}</td><td>${member["join"]}</td></tr>`);
+                $("#result_tbody").append(`<tr><td>${name}</td><td>${member["message"]}</td><td>${member["contents"]["text"]}</td><td>${member["contents"]["image"]}</td><td>${member["contents"]["movie"]}</td><td>${member["contents"]["stamp"]}</td><td>${member["join"]}</td></tr>`);
             }
             $(document).ready(function () {
                 $('#result_table').DataTable({
