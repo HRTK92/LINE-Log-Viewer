@@ -177,11 +177,19 @@
                     } else {
                         text += 1
                         members[name]["contents"]["text"] += 1
-                        var regex = new RegExp(/日記:\d?\d月\d?\d日/);
-                        if (regex.test(lines[line])) {
+                        var regex_diary = new RegExp(/日記:\d?\d月\d?\d日/);
+                        if (regex_diary.test(lines[line])) {
                             var regex_date = new RegExp(/\d?\d月\d?\d日/);
                             diary_date = lines[line].match(regex_date)
-                            diary[diary_date] = lines[line + 1]
+                            var add_line = 0
+                            while (true) {
+                                add_line++
+                                if (!lines[line + add_line].match(regex)) {
+                                    diary[diary_date] = lines[line + add_line]
+                                } else {
+                                    break
+                                }
+                            }
                             $("#diary_tbody").append(`<tr><td>${diary_date}</td><td>${diary[diary_date]}</td></tr>`);
                         }
                     }
