@@ -119,6 +119,7 @@
             var movie = 0
             var members = {}
             var date = {}
+            var diary = {}
 
             var line_date = ""
 
@@ -135,7 +136,7 @@
                     if (members[name] == null) {
                         members[name] = {}
                         members[name]["message"] = 0
-                        members[name]["join"] = line_date.slice( 0, -3 ) 
+                        members[name]["join"] = line_date.slice(0, -3)
                         members[name]["contents"] = {}
                         members[name]["contents"]["text"] = 0
                         members[name]["contents"]["image"] = 0
@@ -162,6 +163,12 @@
                     } else {
                         text += 1
                         members[name]["contents"]["text"] += 1
+                        var regex = new RegExp(/日記:\d?\d月\d?\d日/);
+                        if (regex.test(lines[line])) {
+                            diary_date = lines[line].match(regex)
+                            diary[diary_date] = lines[line + 1]
+                            console.log(diary)
+                        }
                     }
                 }
             }
