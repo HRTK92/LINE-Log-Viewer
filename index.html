@@ -57,7 +57,8 @@
         <div class="uk-section" id="result" style="display:none;">
             <p id="result_title"></p>
             <p id="average_value"></p>
-            <table class="uk-table uk-table-hover uk-table-striped" id="result_table" style="overflow-x: scroll; width: 90%;">
+            <table class="uk-table uk-table-hover uk-table-striped" id="result_table"
+                style="overflow-x: scroll; width: 90%;">
                 <thead>
                     <tr>
                         <th>名前</th>
@@ -78,7 +79,8 @@
         </div>
 
         <div class="uk-section" id="diary" style="display:none;">
-            <table class="uk-table uk-table-hover uk-table-striped" id="diary_table" style="overflow-x: scroll; width: 90%;">
+            <table class="uk-table uk-table-hover uk-table-striped" id="diary_table"
+                style="overflow-x: scroll; width: 90%;">
                 <thead>
                     <tr>
                         <th>日付</th>
@@ -177,7 +179,8 @@
                         members[name]["contents"]["text"] += 1
                         var regex = new RegExp(/日記:\d?\d月\d?\d日/);
                         if (regex.test(lines[line])) {
-                            diary_date = lines[line].match(regex)
+                            var regex_date = new RegExp(/\d?\d月\d?\d日/);
+                            diary_date = lines[line].match(regex_date)
                             diary[diary_date] = lines[line + 1]
                             $("#diary_tbody").append(`<tr><td>${diary_date}</td><td>${diary[diary_date]}</td></tr>`);
                         }
@@ -203,6 +206,13 @@
                     },
                     displayLength: 50,
                     "order": [6, "desc"]
+                });
+                $('#diary_table').DataTable({
+                    // 日本語表示
+                    "language": {
+                        "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Japanese.json"
+                    },
+                    displayLength: 50,
                 });
             })
             createDailyChart(date)
