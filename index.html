@@ -105,19 +105,6 @@
     <script>
         var bar = document.getElementById('js-progressbar');
 
-        if (!getParam('data_url')) {
-            $('#File_selection, #help').hide();
-            $(function () {
-                $.ajax({
-                    url: getParam('data_url'),
-                    dataType: 'text',
-                }).done(function (data) {
-                    window.file_text = data;
-                    GetGata(data);
-                });
-            });
-        }
-
         function loadFileAsText() {
             $('#File_selection, #help').hide();
             $('#js-progressbar').show();
@@ -312,6 +299,18 @@
             return decodeURIComponent(results[2].replace(/\+/g, " "));
         }
 
+        if (!getParam('data_url')) {
+            $('#File_selection, #help').hide();
+            $(function () {
+                $.ajax({
+                    url: getParam('data_url'),
+                    dataType: 'text',
+                }).done(function (data) {
+                    window.file_text = data;
+                    GetGata(data);
+                });
+            });
+        }
 
 
     </script>
