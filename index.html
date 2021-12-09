@@ -303,15 +303,25 @@
             var url = location.hash.slice(1)
             $('#File_selection, #help').hide();
             $(function () {
-                $.ajax({
-                    url: url,
-                    dataType: 'text',
-                }).done(function (data) {
-                    window.file_text = data;
-                    GetGata(data);
-                });
+                var myAjax = {
+                    init: function () {
+                        $.ajax({
+                            url: url,//or path of your file 
+                            async: true,
+                            success: function (data) {
+                                window.file_text = data;
+                                GetGata(data);
+                            }
+                        });
+                    }
+                };
+                myAjax.init();
             });
-        }
+
+
+
+
+        };
 
 
     </script>
