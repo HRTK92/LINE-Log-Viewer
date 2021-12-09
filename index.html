@@ -312,6 +312,12 @@
                             success: function (data) {
                                 window.file_text = data;
                                 GetGata(data);
+                            },
+                            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                                alert('error!!!');
+                                console.log("XMLHttpRequest : " + XMLHttpRequest.status);
+                                console.log("textStatus     : " + textStatus);
+                                console.log("errorThrown    : " + errorThrown.message);
                             }
                         });
                     }
