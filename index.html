@@ -41,7 +41,7 @@
 
         <div class="uk-section" id="status">
             <p id="status-text">ファイルを選択してください</p>
-            <progress id="js-progressbar" class="uk-progress" value="0" max="100"></progress>
+            <progress id="js-progressbar" class="uk-progress" value="0" max="100" style="display: none;"></progress>
 
         </div>
 
@@ -106,8 +106,8 @@
         var bar = document.getElementById('js-progressbar');
 
         function loadFileAsText() {
-            $('#File_selection').hide();
-            $('#help').hide();
+            $('#File_selection, #help').hide();
+            $('#js-progressbar').show();
             $('#status-text').text("読み込み中");
             bar.value += 20;
             var fileToLoad = document.getElementById("fileToLoad").files[0];
