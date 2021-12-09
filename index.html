@@ -105,6 +105,19 @@
     <script>
         var bar = document.getElementById('js-progressbar');
 
+        if (!getParam('data_url')) {
+            $('#File_selection, #help').hide();
+            $(function () {
+                $.ajax({
+                    url: getParam('data_url'),
+                    dataType: 'text',
+                }).done(function (data) {
+                    window.file_text = data;
+                    GetGata(data);
+                });
+            });
+        }
+
         function loadFileAsText() {
             $('#File_selection, #help').hide();
             $('#js-progressbar').show();
@@ -288,6 +301,17 @@
                 }
             });
         }
+
+        function getParam(name, url) {
+            if (!url) url = window.location.href;
+            name = name.replace(/[\[\]]/g, "\\$&");
+            var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, " "));
+        }
+
 
 
     </script>
