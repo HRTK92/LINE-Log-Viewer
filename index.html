@@ -308,6 +308,7 @@
                         $.ajax({
                             url: url,//or path of your file 
                             async: true,
+                            timeout: 10000,
                             success: function (data) {
                                 window.file_text = data;
                                 GetGata(data);
