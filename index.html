@@ -299,11 +299,12 @@
             return decodeURIComponent(results[2].replace(/\+/g, " "));
         }
 
-        if (!getParam('data_url')) {
+        if (location.hash) {
+            var url = location.hash.slice(1)
             $('#File_selection, #help').hide();
             $(function () {
                 $.ajax({
-                    url: getParam('data_url'),
+                    url: url,
                     dataType: 'text',
                 }).done(function (data) {
                     window.file_text = data;
