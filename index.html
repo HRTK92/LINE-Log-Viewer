@@ -20,7 +20,7 @@
     <script>
         ; (function () {
             var src = '//cdn.jsdelivr.net/npm/eruda';
-            if (!/eruda=true/.test(window.location) && localStorage.getItem('active-eruda') != 'true') return;
+            //if (!/eruda=true/.test(window.location) && localStorage.getItem('active-eruda') != 'true') return;
             document.write('<scr' + 'ipt src="' + src + '"></scr' + 'ipt>'); document.write('<scr' + 'ipt>eruda.init();</scr'
                 + 'ipt>');
         })();
@@ -57,6 +57,7 @@
         <div class="uk-section" id="result" style="display:none;">
             <p id="result_title"></p>
             <p id="average_value"></p>
+            <p id="over_1000_days"></p>
             <table class="uk-table uk-table-hover uk-table-striped" id="result_table"
                 style="overflow-x: scroll; width: 90%;">
                 <thead>
@@ -134,9 +135,10 @@
             var members = {}
             var date = {}
             var diary = {}
-
+            var Over_1000_days = 0
             var line_date = ""
 
+            // 分析
             for (var line = 0; line < lines.length; line++) {
                 var regex_date = new RegExp(/^\d\d\d\d[/]\d?\d[/]\d?\d[(].[)]/);
                 if (regex_date.test(lines[line])) {
@@ -201,11 +203,19 @@
                     }
                 }
             }
+            //1000を超えた日をカウント
+            var date_keys = Object.keys(date)
+            for (let key in date_keys) {
+                if (date[date_keys[key]] > 1000) {
+                    Over_1000_days++
+                }
+            }
             $('#status-text').text("完了");
             bar.value = 100;
-            $('#result, #search-box, #daily-data, #diary').show();
+            $('#result, #search-box, #daily-data, #diary, #over_1000_days').show();
             $('#js-progressbar').hide();
             $('#result_title').text(`総メッセージ数${message} | テキスト数${text} | 画像数${image} | 動画数${movie} | スタンプ数${stamp}`);
+            $('#over_1000_days').text(`1日に1000メッセージを超えた日: ${Over_1000_days}`)
             var keys = Object.keys(members);
             for (var i = 0; i < keys.length; i++) {
                 var name = keys[i]
