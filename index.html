@@ -20,7 +20,7 @@
     <script>
         ; (function () {
             var src = '//cdn.jsdelivr.net/npm/eruda';
-            if (!/eruda=true/.test(window.location) && localStorage.getItem('active-eruda') != 'true') return;
+            //if (!/eruda=true/.test(window.location) && localStorage.getItem('active-eruda') != 'true') return;
             document.write('<scr' + 'ipt src="' + src + '"></scr' + 'ipt>'); document.write('<scr' + 'ipt>eruda.init();</scr'
                 + 'ipt>');
         })();
@@ -138,17 +138,21 @@
             var Over_1000_days = 0
             var line_date = ""
 
+            var message_data = {}
+
             // 分析
             for (var line = 0; line < lines.length; line++) {
                 var regex_date = new RegExp(/^\d\d\d\d[/]\d?\d[/]\d?\d[(].[)]/);
                 if (regex_date.test(lines[line])) {
                     line_date = lines[line]
+                    message_data[line_date] = {}
                 }
 
                 var regex = new RegExp(/^\d?\d:\d\d/);
                 if (regex.test(lines[line])) {
                     message += 1
                     var name = lines[line].split(/\s/)[1]
+                    message_data[line_date][lines[line].match(regex)[0]] = { "user": name, "contents": lines[line] }
                     if (members[name] == null) {
                         members[name] = {}
                         members[name]["message"] = 0
@@ -203,6 +207,7 @@
                     }
                 }
             }
+            console.log(message_data)
             //1000を超えた日をカウント
             var date_keys = Object.keys(date)
             for (let key in date_keys) {
