@@ -105,7 +105,6 @@
 
     <script>
         var bar = document.getElementById('js-progressbar');
-
         function loadFileAsText() {
             $('#File_selection, #help').hide();
             $('#js-progressbar').show();
@@ -132,12 +131,12 @@
             var stamp = 0
             var image = 0
             var movie = 0
+
             var members = {}
             var date = {}
             var diary = {}
             var Over_1000_days = 0
             var line_date = ""
-
             var message_data = {}
 
             // 分析
@@ -147,7 +146,6 @@
                     line_date = lines[line]
                     message_data[line_date] = {}
                 }
-
                 var regex = new RegExp(/^\d?\d:\d\d/);
                 if (regex.test(lines[line])) {
                     message += 1
@@ -169,7 +167,6 @@
                     }
                     date[line_date] += 1
                     members[name]["message"] += 1
-
                     //if (members[name]){}
                     if (lines[line].indexOf('[写真]') !== -1) {
                         image += 1
@@ -268,7 +265,6 @@
             numbers.forEach(v => sum += v)
             var Average_value = sum / numbers.length
             $('#average_value').text(`1日の平均: ${Average_value}`)
-
             var ctx = document.getElementById("daily-chart");
             var myLineChart = new Chart(ctx, {
                 // グラフの種類：折れ線グラフを指定
@@ -303,7 +299,6 @@
                 }
             });
         }
-
         function getParam(name, url) {
             if (!url) url = window.location.href;
             name = name.replace(/[\[\]]/g, "\\$&");
@@ -313,7 +308,6 @@
             if (!results[2]) return '';
             return decodeURIComponent(results[2].replace(/\+/g, " "));
         }
-
         if (location.hash) {
             var url = location.hash.slice(1)
             $('#File_selection, #help').hide();
@@ -339,13 +333,7 @@
                 };
                 myAjax.init();
             });
-
-
-
-
         };
-
-
     </script>
 </body>
 
