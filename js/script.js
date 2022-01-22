@@ -26,12 +26,13 @@ function GetGata(text) {
   var image = 0
   var movie = 0
 
-  var members = {}
+  var users = {}
+  var message_data = {}
+
   var date = {}
   var diary = {}
   var Over_1000_days = 0
   var line_date = ''
-  var message_data = {}
 
   // 分析
   for (var line = 0; line < lines.length; line++) {
@@ -48,34 +49,34 @@ function GetGata(text) {
         user: name,
         contents: lines[line],
       }
-      if (members[name] == null) {
-        members[name] = {}
-        members[name]['message'] = 0
-        members[name]['join'] = line_date.slice(0, -3)
-        members[name]['contents'] = {}
-        members[name]['contents']['text'] = 0
-        members[name]['contents']['image'] = 0
-        members[name]['contents']['movie'] = 0
-        members[name]['contents']['stamp'] = 0
+      if (users[name] == null) {
+        users[name] = {}
+        users[name]['message'] = 0
+        users[name]['mention'] = 0
+        users[name]['join'] = line_date.slice(0, -3)
+        users[name]['contents'] = {}
+        users[name]['contents']['text'] = 0
+        users[name]['contents']['image'] = 0
+        users[name]['contents']['movie'] = 0
+        users[name]['contents']['stamp'] = 0
       }
       if (date[line_date] == null) {
         date[line_date] = 0
       }
       date[line_date] += 1
-      members[name]['message'] += 1
-      //if (members[name]){}
+      users[name]['message'] += 1
       if (lines[line].indexOf('[写真]') !== -1) {
         image += 1
-        members[name]['contents']['image'] += 1
+        users[name]['contents']['image'] += 1
       } else if (lines[line].indexOf('[動画]') !== -1) {
         movie += 1
-        members[name]['contents']['movie'] += 1
+        users[name]['contents']['movie'] += 1
       } else if (lines[line].indexOf('[スタンプ]') !== -1) {
         stamp += 1
-        members[name]['contents']['stamp'] += 1
+        users[name]['contents']['stamp'] += 1
       } else {
         text += 1
-        members[name]['contents']['text'] += 1
+        users[name]['contents']['text'] += 1
         var regex_diary = new RegExp(/日記:\d?\d月\d?\d日/)
         if (regex_diary.test(lines[line])) {
           var regex_date = new RegExp(/\d?\d月\d?\d日/)
@@ -101,7 +102,6 @@ function GetGata(text) {
       }
     }
   }
-  console.log(message_data)
   //1000を超えた日をカウント
   var date_keys = Object.keys(date)
   for (let key in date_keys) {
@@ -117,12 +117,12 @@ function GetGata(text) {
     `総メッセージ数${message} | テキスト数${text} | 画像数${image} | 動画数${movie} | スタンプ数${stamp}`
   )
   $('#over_1000_days').text(`1日に1000メッセージを超えた日: ${Over_1000_days}`)
-  var keys = Object.keys(members)
+  var keys = Object.keys(users)
   for (var i = 0; i < keys.length; i++) {
     var name = keys[i]
-    var member = members[keys[i]]
+    var user = users[keys[i]]
     $('#result_tbody').append(
-      `<tr><td>${name}</td><td>${member['message']}</td><td>${member['contents']['text']}</td><td>${member['contents']['image']}</td><td>${member['contents']['movie']}</td><td>${member['contents']['stamp']}</td><td>${member['join']}</td></tr>`
+      `<tr><td>${name}</td><td>${user['message']}</td><td>${user['contents']['text']}</td><td>${user['contents']['image']}</td><td>${user['contents']['movie']}</td><td>${user['contents']['stamp']}</td><td>${user['join']}</td></tr>`
     )
   }
   $(document).ready(function () {
