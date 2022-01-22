@@ -43,7 +43,7 @@ function GetGata(text) {
     }
     var regex = new RegExp(/^\d?\d:\d\d/)
     if (regex.test(lines[line])) {
-      message += 1
+      message++
       var name = lines[line].split(/\s/)[1]
       message_data[line_date][lines[line].match(regex)[0]] = {
         user: name,
@@ -63,20 +63,20 @@ function GetGata(text) {
       if (date[line_date] == null) {
         date[line_date] = 0
       }
-      date[line_date] += 1
-      users[name]['message'] += 1
+      date[line_date]++
+      users[name]['message']++
       if (lines[line].indexOf('[写真]') !== -1) {
-        image += 1
-        users[name]['contents']['image'] += 1
+        image++
+        users[name]['contents']['image']++
       } else if (lines[line].indexOf('[動画]') !== -1) {
-        movie += 1
-        users[name]['contents']['movie'] += 1
+        movie++
+        users[name]['contents']['movie']++
       } else if (lines[line].indexOf('[スタンプ]') !== -1) {
-        stamp += 1
-        users[name]['contents']['stamp'] += 1
+        stamp++
+        users[name]['contents']['stamp']++
       } else {
-        text += 1
-        users[name]['contents']['text'] += 1
+        text++
+        users[name]['contents']['text']++
         var regex_diary = new RegExp(/日記:\d?\d月\d?\d日/)
         if (regex_diary.test(lines[line])) {
           var regex_date = new RegExp(/\d?\d月\d?\d日/)
