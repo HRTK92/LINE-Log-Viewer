@@ -113,7 +113,7 @@ function GetGata(text) {
   for (const user in users) {
     if (Object.hasOwnProperty.call(users, user)) {
       const element = users[user];
-      const mention = (window.file_text.match( new RegExp( `@${user}`, "g" ) ) || [] ).length
+      const mention = window.file_text.split(user).length - 1
       element.mention = mention
     }
   }
