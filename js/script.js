@@ -109,6 +109,15 @@ function GetGata(text) {
       Over_1000_days++
     }
   }
+  //メンションのカウント
+  for (const user in users) {
+    if (Object.hasOwnProperty.call(users, user)) {
+      const element = users[user];
+      const mention = (window.file_text.match( new RegExp( `@${user}`, "g" ) ) || [] ).length
+      element.mention = mention
+    }
+  }
+
   $('#status-text').text('完了')
   bar.value = 100
   $('#result, #search-box, #daily-data, #diary, #over_1000_days').show()
@@ -122,7 +131,7 @@ function GetGata(text) {
     var name = keys[i]
     var user = users[keys[i]]
     $('#result_tbody').append(
-      `<tr><td>${name}</td><td>${user['message']}</td><td>${user['contents']['text']}</td><td>${user['contents']['image']}</td><td>${user['contents']['movie']}</td><td>${user['contents']['stamp']}</td><td>${user['join']}</td></tr>`
+      `<tr><td>${name}</td><td>${user['message']}</td><td>${user['contents']['text']}</td><td>${user['contents']['image']}</td><td>${user['contents']['movie']}</td><td>${user['contents']['stamp']}</td><td>${user['mention']}</td><td>${user['join']}</td></tr>`
     )
   }
   $(document).ready(function () {
