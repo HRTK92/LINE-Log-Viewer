@@ -33,6 +33,7 @@ function GetGata(text) {
   var diary = {}
   var Over_1000_days = 0
   var line_date = ''
+  let lastUser
 
   // 分析
   for (var line = 0; line < lines.length; line++) {
@@ -53,6 +54,7 @@ function GetGata(text) {
         users[name] = {}
         users[name]['message'] = 0
         users[name]['mention'] = 0
+        users[name]['continuously'] = []
         users[name]['join'] = line_date.slice(0, -3)
         users[name]['contents'] = {}
         users[name]['contents']['text'] = 0
@@ -100,6 +102,12 @@ function GetGata(text) {
           )
         }
       }
+      if (lastUser == name) {
+        users[name]['continuously'][users[name]['continuously'].length - 1]++
+      } else {
+        users[name]['continuously'].push(1)
+      }
+      lastUser = name
     }
   }
   //1000を超えた日をカウント
@@ -131,7 +139,7 @@ function GetGata(text) {
     var name = keys[i]
     var user = users[keys[i]]
     $('#result_tbody').append(
-      `<tr><td>${name}</td><td>${user['message']}</td><td>${user['contents']['text']}</td><td>${user['contents']['image']}</td><td>${user['contents']['movie']}</td><td>${user['contents']['stamp']}</td><td>${user['mention']}</td><td>${user['join']}</td></tr>`
+      `<tr><td>${name}</td><td>${user['message']}</td><td>${user['contents']['text']}</td><td>${user['contents']['image']}</td><td>${user['contents']['movie']}</td><td>${user['contents']['stamp']}</td><td>${user['mention']}</td><td>${Math.max.apply(Math, user['continuously'])}</td><td>${user['join']}</td></tr>`
     )
   }
   $(document).ready(function () {
