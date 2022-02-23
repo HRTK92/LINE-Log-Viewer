@@ -1,51 +1,51 @@
-var bar = document.getElementById('js-progressbar')
+const bar = document.getElementById('js-progressbar')
 function loadFileAsText() {
   $('#File_selection, #help').hide()
   $('#js-progressbar').show()
   $('#status-text').text('ファイルを読み込み中')
   bar.value += 20
-  var fileToLoad = document.getElementById('fileToLoad').files[0]
+  const fileToLoad = document.getElementById('fileToLoad').files[0]
 
-  var fileReader = new FileReader()
+  const fileReader = new FileReader()
   fileReader.onload = function (fileLoadedEvent) {
-    var textFromFileLoaded = fileLoadedEvent.target.result
+    const textFromFileLoaded = fileLoadedEvent.target.result
     window.file_text = textFromFileLoaded
     GetGata(textFromFileLoaded)
   }
 
   fileReader.readAsText(fileToLoad, 'UTF-8')
 }
-function GetGata(text) {
+function GetGata(got_text) {
   $('#status-text').text('ファイルを分析中')
   bar.value += 20
-  var lines = text.split('\n')
+  const lines = got_text.split('\n')
 
-  var message = 0
-  var text = 0
-  var stamp = 0
-  var image = 0
-  var movie = 0
+  let message = 0
+  let text = 0
+  let stamp = 0
+  let image = 0
+  let movie = 0
 
-  var users = {}
-  var message_data = {}
+  const users = {}
+  const message_data = {}
 
-  var date = {}
-  var diary = {}
-  var Over_1000_days = 0
-  var line_date = ''
+  const date = {}
+  const diary = {}
+  let Over_1000_days = 0
+  let line_date
   let lastUser
 
   // 分析
-  for (var line = 0; line < lines.length; line++) {
-    var regex_date = new RegExp(/^\d\d\d\d[/]\d?\d[/]\d?\d[(].[)]/)
+  for (let line = 0; line < lines.length; line++) {
+    const regex_date = new RegExp(/^\d\d\d\d[/]\d?\d[/]\d?\d[(].[)]/)
     if (regex_date.test(lines[line])) {
       line_date = lines[line]
       message_data[line_date] = {}
     }
-    var regex = new RegExp(/^\d?\d:\d\d/)
+    const regex = new RegExp(/^\d?\d:\d\d/)
     if (regex.test(lines[line])) {
       message++
-      var name = lines[line].split(/\s/)[1]
+      const name = lines[line].split(/\s/)[1]
       message_data[line_date][lines[line].match(regex)[0]] = {
         user: name,
         contents: lines[line],
@@ -79,11 +79,11 @@ function GetGata(text) {
       } else {
         text++
         users[name]['contents']['text']++
-        var regex_diary = new RegExp(/日記:\d?\d月\d?\d日/)
+        const regex_diary = new RegExp(/日記:\d?\d月\d?\d日/)
         if (regex_diary.test(lines[line])) {
-          var regex_date = new RegExp(/\d?\d月\d?\d日/)
-          diary_date = lines[line].match(regex_date)
-          var add_line = 0
+          const regex_date_ja = new RegExp(/\d?\d月\d?\d日/)
+          diary_date = lines[line].match(regex_date_ja)
+          let add_line = 0
           while (true) {
             add_line++
             if (lines[line + add_line] == null) {
@@ -111,7 +111,7 @@ function GetGata(text) {
     }
   }
   //1000を超えた日をカウント
-  var date_keys = Object.keys(date)
+  const date_keys = Object.keys(date)
   for (let key in date_keys) {
     if (date[date_keys[key]] > 1000) {
       Over_1000_days++
@@ -134,10 +134,10 @@ function GetGata(text) {
     `総メッセージ数${message} | テキスト数${text} | 画像数${image} | 動画数${movie} | スタンプ数${stamp}`
   )
   $('#over_1000_days').text(`1日に1000メッセージを超えた日: ${Over_1000_days}`)
-  var keys = Object.keys(users)
-  for (var i = 0; i < keys.length; i++) {
-    var name = keys[i]
-    var user = users[keys[i]]
+  const keys = Object.keys(users)
+  for (let i = 0; i < keys.length; i++) {
+    const name = keys[i]
+    const user = users[keys[i]]
     $('#result_tbody').append(
       `<tr><td>${name}</td><td>${user['message']}</td><td>${user['contents']['text']}</td><td>${user['contents']['image']}</td><td>${user['contents']['movie']}</td><td>${user['contents']['stamp']}</td><td>${user['mention']}</td><td>${Math.max.apply(Math, user['continuously'])}</td><td>${user['join']}</td></tr>`
     )
@@ -162,9 +162,9 @@ function GetGata(text) {
   createDailyChart(date)
 }
 $('#search-button').on('click', function () {
-  var text = window.file_text
-  var targetStr = $('#search').val()
-  var count = (text.match(new RegExp(targetStr, 'g')) || []).length
+  const text = window.file_text
+  const targetStr = $('#search').val()
+  const count = (text.match(new RegExp(targetStr, 'g')) || []).length
   alert(`検索結果: ${count}`)
 })
 
@@ -218,18 +218,18 @@ function createDailyChart(date) {
 }
 function getParam(name, url) {
   if (!url) url = window.location.href
-  name = name.replace(/[\[\]]/g, '\\$&')
-  var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+  const name = name.replace(/[\[\]]/g, '\\$&')
+  const regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
     results = regex.exec(url)
   if (!results) return null
   if (!results[2]) return ''
   return decodeURIComponent(results[2].replace(/\+/g, ' '))
 }
 if (location.hash) {
-  var url = location.hash.slice(1)
+  const url = location.hash.slice(1)
   $('#File_selection, #help').hide()
   $(function () {
-    var myAjax = {
+    const myAjax = {
       init: function () {
         $.ajax({
           url: url, //or path of your file
