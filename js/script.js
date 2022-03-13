@@ -136,10 +136,10 @@ function GetGata(got_text) {
   $('#over_1000_days').text(`1日に1000メッセージを超えた日: ${Over_1000_days}`)
   const keys = Object.keys(users)
   for (let i = 0; i < keys.length; i++) {
-    const name = keys[i]
+    const user_name = keys[i]
     const user = users[keys[i]]
     $('#result_tbody').append(
-      `<tr><td>${name}</td><td>${user['message']}</td><td>${user['contents']['text']}</td><td>${user['contents']['image']}</td><td>${user['contents']['movie']}</td><td>${user['contents']['stamp']}</td><td>${user['mention']}</td><td>${Math.max.apply(Math, user['continuously'])}</td><td>${user['join']}</td></tr>`
+      `<tr><td>${user_name}</td><td>${user['message']}</td><td>${user['contents']['text']}</td><td>${user['contents']['image']}</td><td>${user['contents']['movie']}</td><td>${user['contents']['stamp']}</td><td>${user['mention']}</td><td>${Math.max.apply(Math, user['continuously'])}</td><td>${user['join']}</td></tr>`
     )
   }
   $(document).ready(function () {
@@ -167,7 +167,10 @@ $('#search-button').on('click', function () {
   const count = (text.match(new RegExp(targetStr, 'g')) || []).length
   alert(`検索結果: ${count}`)
 })
-
+$('#load').click(function (e) {
+  e.preventDefault();
+  loadFileAsText()
+});
 function createDailyChart(date) {
   var date_keys = Object.keys(date)
   var days = []
@@ -218,8 +221,8 @@ function createDailyChart(date) {
 }
 function getParam(name, url) {
   if (!url) url = window.location.href
-  const name = name.replace(/[\[\]]/g, '\\$&')
-  const regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+  const name2 = name.replace(/[\[\]]/g, '\\$&')
+  const regex = new RegExp('[?&]' + name2 + '(=([^&#]*)|&|#|$)'),
     results = regex.exec(url)
   if (!results) return null
   if (!results[2]) return ''
