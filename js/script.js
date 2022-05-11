@@ -149,7 +149,7 @@ function GetGata(got_text) {
         url: 'http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Japanese.json',
       },
       displayLength: 50,
-      order: [6, 'desc'],
+      order: [7, 'desc'],
     })
     $('#diary_table').DataTable({
       // 日本語表示
