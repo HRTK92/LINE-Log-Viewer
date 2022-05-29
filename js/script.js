@@ -20,7 +20,7 @@ function GetData(got_text) {
   bar.value += 20
   const lines = got_text.split('\n')
 
-  let statistics = { message: 0, text: 0, stamp: 0, image: 0, video: 0, call:0 }
+  let statistics = { message: 0, text: 0, stamp: 0, image: 0, video: 0, call: 0 }
 
   const users = {}
   const message_data = {}
@@ -165,7 +165,7 @@ function GetData(got_text) {
   $('#result, #search-box, #daily-data, #diary, #over_1000_days').show()
   $('#js-progressbar').hide()
   $('#result_title').text(
-    `総メッセージ数${statistics['message']} | テキスト数${statistics['text']} | 画像数${statistics['image']} | 動画数${statistics['video']} | スタンプ数${statistics['stamp']} | 合計通話時間${statistics['call']}`
+    `総メッセージ数${statistics['message']} | テキスト数${statistics['text']} | 画像数${statistics['image']} | 動画数${statistics['video']} | スタンプ数${statistics['stamp']} | 合計通話時間${statistics['call']}分`
   )
   $('#over_1000_days').text(`1日に1000メッセージを超えた日: ${Over_1000_days}`)
   const keys = Object.keys(users)
