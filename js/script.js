@@ -89,8 +89,10 @@ function GetData(got_text) {
         user['contents']['call']++
         LastStartedCall = line_date.slice(0, -3) + ' ' + SentTime
       } else if (lines[line].indexOf('グループ通話が終了しました。') !== -1) {
-        call.push([LastStartedCall, line_date.slice(0, -3) + ' ' + SentTime])
-        LastStartedCall = null
+        if (LastStartedCall != null) {
+          call.push([LastStartedCall, line_date.slice(0, -3) + ' ' + SentTime])
+          LastStartedCall = null
+        }
       } else {
         statistics['text']++
         user['contents']['text']++
@@ -154,9 +156,12 @@ function GetData(got_text) {
     const end = call[i][1]
     const start_time = new Date(start)
     const end_time = new Date(end)
-    console.log(start_time, end_time);
     const diff = end_time.getTime() - start_time.getTime()
     const diff_min = diff / (60 * 1000)
+    if (diff_min > 1000) {
+      console.log(start_time, end_time)
+      console.log(diff_min + '分', start)
+    }
     statistics['call'] += diff_min
   }
 
