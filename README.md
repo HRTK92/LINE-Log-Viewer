@@ -1,5 +1,8 @@
 # LINE-Log-Viewer
 
+こちらは開発が終了しました。
+現在は[ここ](https://github.com/HRTK92/line-viewer)で開発されてます
+
 ## 使い方
 
 1.Lineのグループから「トーク履歴の送信」を押してtxtファイルをダウンロードする
