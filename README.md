@@ -1,7 +1,6 @@
 # LINE-Log-Viewer
 
-こちらは開発が終了しました。
-現在は[ここ](https://github.com/HRTK92/line-viewer)で開発されてます
+新しいの[やつ](https://github.com/HRTK92/line-viewer)
 
 ## 使い方
 
