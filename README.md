@@ -1,6 +1,6 @@
 # LINE-Log-Viewer
 
-新しいの[やつ](https://github.com/HRTK92/line-viewer)
+新しい[やつ](https://github.com/HRTK92/line-viewer)
 
 ## 使い方
 
