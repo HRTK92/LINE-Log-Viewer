@@ -6,6 +6,9 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <meta name="title" content="LINE LOG Viewer">
+  <meta name="description" content="LINEのトークを分析し、発言数などを表示することができます。">
+
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.js"></script>
@@ -16,20 +19,6 @@
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.9.3/dist/css/uikit.min.css" />
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css" />
-
-  <script>
-    ; (function () {
-      var src = '//cdn.jsdelivr.net/npm/eruda'
-      if (
-        !/eruda=true/.test(window.location) &&
-        localStorage.getItem('active-eruda') != 'true'
-      )
-        return
-      document.write('<scr' + 'ipt src="' + src + '"></scr' + 'ipt>')
-      document.write('<scr' + 'ipt>eruda.init();</scr' + 'ipt>')
-    })()
-  </script>
-
 
   <title>Lineログビューア</title>
 </head>
